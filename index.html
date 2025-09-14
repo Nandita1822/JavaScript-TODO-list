@@ -3,50 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>js</title>
-
+    <title>Todo App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body>
-    <h1>Todo App</h1>
-    <input placeholder="enter your task" />
-    <button>Add Task</button>
-    <ul>
-        <li>Eat <button>delete</button></li>
-        <li>Sleep <button>delete</button></li>
-    
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+    <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6">
+        <h1 class="text-3xl font-bold text-gray-800 text-center mb-8">📝 Todo App</h1>
+        
+        <div class="flex gap-3 mb-6">
+            <input 
+                placeholder="Enter your task..." 
+                class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition-colors duration-200 text-gray-700 placeholder-gray-400"
+            />
+            <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-medium transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                Add Task
+            </button>
+        </div>
+        
+        <ul class="space-y-3">
+            <li class="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-100 hover:bg-gray-100 transition-colors duration-200">
+                <span class="text-gray-700 font-medium">Eat</span>
+                <button class="delete bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 shadow-md hover:shadow-lg">
+                    Delete
+                </button>
+            </li>
+            <li class="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-100 hover:bg-gray-100 transition-colors duration-200">
+                <span class="text-gray-700 font-medium">Sleep</span>
+                <button class="delete bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 shadow-md hover:shadow-lg">
+                    Delete
+                </button>
+            </li>
+        </ul>
+    </div>
 
-    </ul>
     <script>
-        let btn=document.querySelector("button");
-let ul=document.querySelector("ul");
-let inp=document.querySelector("input");
+        let btn = document.querySelector("button");
+        let ul = document.querySelector("ul");
+        let inp = document.querySelector("input");
 
-btn.addEventListener("click",function() {
-    let item= document.createElement("li");
-    item.innerText=inp.value;
+        btn.addEventListener("click", function() {
+            if (inp.value.trim() === "") return;
+            
+            let item = document.createElement("li");
+            item.className = "flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-100 hover:bg-gray-100 transition-colors duration-200";
+            
+            let taskText = document.createElement("span");
+            taskText.className = "text-gray-700 font-medium";
+            taskText.innerText = inp.value;
+            
+            let delbtn = document.createElement("button");
+            delbtn.innerText = "Delete";
+            delbtn.className = "delete bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 shadow-md hover:shadow-lg";
 
-    let delbtn =document.createElement("button");
-    delbtn.innerText="delete";
-    delbtn.classList.add("delete");
+            item.appendChild(taskText);
+            item.appendChild(delbtn);
+            ul.appendChild(item);
+            
+            inp.value = "";
+        });
 
-   item.appendChild(delbtn);
-   ul.appendChild(item);
-   
-    inp.value = "";
-});
+        ul.addEventListener("click", function(event) {
+            if (event.target.nodeName == "BUTTON") {
+                let listItem = event.target.parentElement;
+                listItem.remove();
+                console.log("deleted");
+            }
+        });
 
-ul.addEventListener("click",function(event){
-    if(event.target.nodeName == "BUTTON"){
-        let listItem = event.target.parentElement;
-        listItem.remove();
-        console.log("deleted");
-    }
-  
-});
-
+        // Add task on Enter key press
+        inp.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                btn.click();
+            }
+        });
     </script>
-
-    
-</body>
-
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f1d40b90bf54e8',t:'MTc1Nzg3MzI5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
